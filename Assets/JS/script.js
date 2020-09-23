@@ -1,9 +1,13 @@
 $(document).ready(function() {})
 
+// Declaration of variables
+// The arrays are helpful to load the page
 var divIDS = ["hour-9", "hour-10", "hour-11", "hour-12", "hour-13", "hour-14", "hour-15", "hour-16", "hour-17"];
 var locStor = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
+// Getting the current hour needed for the page coloring
 var curHour = parseInt(moment().hour())
 
+// Function calls to load the page
 loadPage();
 colorPage();
 setTime();
@@ -11,12 +15,15 @@ setTime();
 
 // Event listener for the save button click
 $(".saveBtn").on("click", function() {
+    // Gets what the user typed into the text area
     var userInput = ($(this).siblings("textarea").val().trim());
+    // Grabs the time for the text area
     var userTime = ($(this).siblings("div").text().trim());
+    // Stores the time and message into local storage
     localStorage.setItem(userTime, userInput);
 })
 
-//This will pull in the items from local storage
+// This will pull in the items from local storage
 function loadPage() {
     // Pulling items from local storage
     // The arrays will go through each div tag
@@ -27,7 +34,9 @@ function loadPage() {
     $("#currentDay").text(moment().format('ddd MMM Do YYYY'));    
 }
 
-function colorPage() {    
+// Function to color the page
+function colorPage() {  
+    // loop to color each of the textarea tags  
     for (i=0; i<divIDS.length; i++) {
         if (curHour > (i+9)) {
             // add .past class
@@ -43,14 +52,20 @@ function colorPage() {
 
 }
 
+// Function to update the time. This runs every minute and when the hour changes, the coloring will update
 function setTime() {
-    var timerInterval = setInterval(function() {
+    setInterval(function() {
+        // Checking to see if the current hour matches what the page thinks it is
         if (curHour != parseInt(moment().hour())) {
-            curHour = parseInt(moment().hour())
+            // Updating the current hour
+            curHour = parseInt(moment().hour());
+            console.log("You entered an hour change")
+            // Coloring the page
             colorPage();
         };
-        
-        console.log(moment().minute());
-
+        // Logging the minute to make sure the listener functions correctly
+        console.log("hour: " + moment().hour());
+        console.log("minute: " + moment().minute());
+        console.log("system hour: " + curHour);
     }, 60000);
 }
