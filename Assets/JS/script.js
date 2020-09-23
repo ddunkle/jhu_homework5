@@ -40,9 +40,11 @@ function colorPage() {
     for (i=0; i<divIDS.length; i++) {
         if (curHour > (i+9)) {
             // add .past class
+            $("#" + divIDS[i]).children("textarea").removeClass("present");
             $("#" + divIDS[i]).children("textarea").addClass("past");
         } else if (curHour === (i+9)) {
             // add .present class
+            $("#" + divIDS[i]).children("textarea").removeClass("future");
             $("#" + divIDS[i]).children("textarea").addClass("present");
         } else {
             // add .future class
@@ -59,13 +61,14 @@ function setTime() {
         if (curHour != parseInt(moment().hour())) {
             // Updating the current hour
             curHour = parseInt(moment().hour());
-            console.log("You entered an hour change")
+            //console.log("You entered an hour change")
             // Coloring the page
             colorPage();
         };
         // Logging the minute to make sure the listener functions correctly
-        console.log("hour: " + moment().hour());
-        console.log("minute: " + moment().minute());
-        console.log("system hour: " + curHour);
+        // console.log("hour: " + moment().hour());
+        // console.log("minute: " + moment().minute());
+        // console.log("system hour: " + curHour);
     }, 60000);
 }
+
